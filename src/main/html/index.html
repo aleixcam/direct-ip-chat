@@ -31,7 +31,7 @@
 
         connectForm.addEventListener('submit', function(event) {
             event.preventDefault()
-            return ipcRenderer.sendSync('server:connect', {
+            return ipcRenderer.sendSync('server:start', {
                 host: connectHost.value,
                 port: connectPort.value
             })

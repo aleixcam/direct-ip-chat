@@ -30,12 +30,11 @@ app.on('ready', function(event) {
         main.show()
     })
 
-    ipcMain.on('server:start', onStartServer)
-    ipcMain.on('server:connect', onConnectClient)
+    ipcMain.on('server:start', connectToServer)
     ipcMain.on('message:send', onSendMessage)
 });
 
-function onStartServer(port) {
+function startServer(port) {
     socket_server = new Server()
     socket_server.on('connection', function(socket) {
         console.log('SERVER: connection')
@@ -45,10 +44,10 @@ function onStartServer(port) {
     socket_server.listen(port)
 }
 
-function onConnectClient(event, data) {
-    if (data.host === '127.0.0.1') onStartServer(data.port)
+function connectToServer(event, data) {
+    if (data.host === '127.0.0.1') startServer(data.port)
 
-    socket_client = new Client(data.host + ':' + data.port)
+    socket_client = new Client('http://' + data.host + ':' + data.port)
     socket_client.on('connect', function() {
         console.log('CLIENT: connect')
     })
