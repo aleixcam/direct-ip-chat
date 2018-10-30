@@ -1,0 +1,26 @@
+{
+    "name": "direct-ip-chat",
+    "description": "Direct IP Texting App",
+    "version": "0.1.0",
+    "author": "Aleix Caminal",
+    "license": "MIT",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "test"
+    },
+    "keywords": [
+        "ip",
+        "chat",
+        "direct",
+        "electron"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/aleixcam/direct-ip-chat.git"
+    },
+    "bugs": {
+        "url": "https://github.com/aleixcam/direct-ip-chat/issues"
+    },
+    "homepage": "https://github.com/aleixcam/direct-ip-chat#readme"
+}
