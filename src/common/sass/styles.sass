@@ -1,0 +1,77 @@
+$color-primary: #3544fc
+$color-background: #1c1d2a
+
+body
+    display: grid
+    grid-template-columns: 80px calc(100vw - 80px)
+    margin: 0
+    overflow: hidden
+
+    .sidebar
+        grid-column: 1
+        height: 100vh
+        background-color: $color-background
+
+        &__rooms
+            margin-top: 30px
+            overflow-y: scroll
+
+        &__room
+            width: 60px
+            height: 60px
+            margin: 10px
+
+            &--new
+                border: 4px dashed $color-primary
+                border-radius: 50%
+                background-color: transparent
+                color: $color-primary
+                font-size: 32px
+
+                &:hover
+                    cursor: pointer
+                    background-color: lighten($color-background, 7%)
+
+                &:focus
+                    outline: 0
+
+    .chatroom
+        grid-column: 2
+        display: grid
+        grid-template-rows: calc(100vh - 60px) 60px
+        overflow-y: scroll
+
+        .messages
+            grid-row: 1
+
+        .textarea
+            grid-row: 2
+            display: flex
+            justify-content: center
+            align-items: center
+            background-color: lighten($color-background, 71%)
+
+            &__input
+                width: 70%
+                height: 30px
+                margin-right: 10px
+                padding: 5px 30px
+                border: none
+                border-radius: 2rem
+                font-size: 18px
+
+                &:focus
+                    outline: 0
+
+            &__button
+                width: 60px
+                height: 40px
+                margin-left: 10px
+                padding: 0
+                border: none
+                background-color: transparent
+                font-size: 24px
+                cursor: pointer
+
+                &:focus
+                    outline: 0

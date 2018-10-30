@@ -24,7 +24,12 @@ app.on('ready', function(event) {
     })
 
     // Load index into window
-    main = new BrowserWindow()
+    main = new BrowserWindow({
+        titleBarStyle: 'hidden',
+		width: 1024,
+		height: 768
+    })
+    
     main.loadURL('src://main/html/index.html')
     main.on('ready-to-show', () => {
         main.show()
@@ -46,7 +51,7 @@ function startServer(port) {
 
 function connectToServer(event, data) {
     startServer(data.port)
-    
+
     socket_client = new Client('http://' + data.host + ':' + data.port)
     socket_client.on('connect', function() {
         console.log('CLIENT: connect')
@@ -61,7 +66,11 @@ function connectToServer(event, data) {
     })
 
     // create chat window
-    chat = new BrowserWindow()
+    chat = new BrowserWindow({
+        titleBarStyle: 'hidden',
+		width: 1024,
+		height: 768
+    })
 
     chat.loadURL('src://main/html/chat.html')
     chat.on('ready-to-show', () => {

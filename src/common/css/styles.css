@@ -1,0 +1,77 @@
+body {
+  display: grid;
+  grid-template-columns: 80px calc(100vw - 80px);
+  margin: 0;
+  overflow: hidden;
+}
+body .sidebar {
+  grid-column: 1;
+  height: 100vh;
+  background-color: #1c1d2a;
+}
+body .sidebar__rooms {
+  margin-top: 30px;
+  overflow-y: scroll;
+}
+body .sidebar__room {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+}
+body .sidebar__room--new {
+  border: 4px dashed #3544fc;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #3544fc;
+  font-size: 32px;
+}
+body .sidebar__room--new:hover {
+  cursor: pointer;
+  background-color: #2a2c3f;
+}
+body .sidebar__room--new:focus {
+  outline: 0;
+}
+body .chatroom {
+  grid-column: 2;
+  display: grid;
+  grid-template-rows: calc(100vh - 60px) 60px;
+  overflow-y: scroll;
+}
+body .chatroom .messages {
+  grid-row: 1;
+}
+body .chatroom .textarea {
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d0d1e0;
+}
+body .chatroom .textarea__input {
+  width: 70%;
+  height: 30px;
+  margin-right: 10px;
+  padding: 5px 30px;
+  border: none;
+  border-radius: 2rem;
+  font-size: 18px;
+}
+body .chatroom .textarea__input:focus {
+  outline: 0;
+}
+body .chatroom .textarea__button {
+  width: 60px;
+  height: 40px;
+  margin-left: 10px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+body .chatroom .textarea__button:focus {
+  outline: 0;
+}
+
+/*# sourceMappingURL=styles.css.map */
