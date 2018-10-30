@@ -6,7 +6,9 @@ const {app, BrowserWindow, Menu, ipcMain} = electron;
 const Server = require('socket.io')
 const Client = require('socket.io-client')
 
+let socket_server
 let socket_client
+
 let main
 let chat
 
@@ -14,48 +16,39 @@ let chat
 app.on('ready', function(event) {
     const protocol = electron.protocol;
     protocol.registerFileProtocol('src', (request, callback) => {
-        callback({path: path.join(__dirname, 'src/', request.url.substr(6))});
-    });
+        callback({path: path.join(__dirname, 'src/', request.url.substr(6))})
+    })
 
     protocol.registerFileProtocol('node', (request, callback) => {
-        callback({path: path.join(__dirname, 'node_modules/', request.url.substr(7))});
-    });
+        callback({path: path.join(__dirname, 'node_modules/', request.url.substr(7))})
+    })
 
-    // Load layout into window
-    main = new BrowserWindow({
-        title: 'P2P Chat',
-        width: 250,
-        height: 500,
-        show: false
-    });
-
-    main.loadURL('src://main/html/index.html');
+    // Load index into window
+    main = new BrowserWindow()
+    main.loadURL('src://main/html/index.html')
     main.on('ready-to-show', () => {
         main.show()
     })
 
-    ipcMain.on('start server', onStartServer)
-    ipcMain.on('connect client', onConnectClient)
-    ipcMain.on('send message', onSendMessage)
+    ipcMain.on('server:start', onStartServer)
+    ipcMain.on('server:connect', onConnectClient)
+    ipcMain.on('message:send', onSendMessage)
 });
 
-function onServerConnection(socket) {
-    console.log('SERVER: connection')
-    socket.on('chat message', onChatMessage)
+function onStartServer(port) {
+    socket_server = new Server()
+    socket_server.on('connection', function(socket) {
+        console.log('SERVER: connection')
+        socket.on('message:send', onChatMessage)
+    })
+    console.log('SERVER: listening on port ' + port)
+    socket_server.listen(port)
 }
 
-function onChatMessage(msg) {
-    console.log('received message: ', msg)
-    chat.webContents.send('receive message', msg)
-}
+function onConnectClient(event, data) {
+    if (data.host === '127.0.0.1') onStartServer(data.port)
 
-function onSendMessage(event, message) {
-    console.log('sending message: ', message)
-    socket_client.emit('chat message', message)
-}
-
-function onConnectClient(event, message) {
-    socket_client = new Client('http://localhost:' + message.port)
+    socket_client = new Client(data.host + ':' + data.port)
     socket_client.on('connect', function() {
         console.log('CLIENT: connect')
     })
@@ -69,33 +62,21 @@ function onConnectClient(event, message) {
     })
 
     // create chat window
-    chat = new BrowserWindow({
-        title: 'P2P Chat',
-        width: 600,
-        height: 600,
-        show: false
-    })
+    chat = new BrowserWindow()
 
     chat.loadURL('src://main/html/chat.html')
     chat.on('ready-to-show', () => {
         main.hide()
         chat.show()
     })
-
-    event.returnValue = true
 }
 
-function onStartServer(event, message) {
-    const host = '127.0.0.1'
-    const port = 9000
+function onSendMessage(event, message) {
+    console.log('Sending message: ', message)
+    socket_client.emit('message:send', message)
+}
 
-    let server = new Server()
-    server.on('connection', onServerConnection)
-    console.log('SERVER: listening on port ' + port)
-    server.listen(port)
-
-    event.returnValue = {
-        ip: host,
-        port: port
-    }
+function onChatMessage(msg) {
+    console.log('Received message: ', msg)
+    chat.webContents.send('message:receive', msg)
 }

@@ -5,63 +5,38 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>P2P Chat</title>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-        <style>
-            .pure-g > div {
-                box-sizing: border-box;
-                padding: 0 1em;
-            }
-
-            #chat-form {
-                margin-bottom: 1em;
-            }
-
-            #messages {
-                max-height: 400px;
-                overflow-y: auto;
-            }
-
-            .message {
-                box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
-                margin-top: 1em;
-                margin-bottom: 1em;
-                padding: 0.5em 1em;
-            }
-
-            .my-message {
-                color: #fff;
-                background-color: #2196F3;
-            }
-
-            .their-message {
-                color: #fff;
-                background-color: #4CAF50;
-                text-align: right;
-            }
-        </style>
     </head>
     <body>
-        <div class="pure-g">
-            <div class="pure-u-1">
-                <h1>Chat</h1>
-            </div>
-        </div>
+        <div id="messages" class="messages"></div>
 
-        <div class="pure-g">
-            <div class="pure-u-1">
-                <form id="chat-form" class="pure-form">
-                    <input id="chat-message" type="text" class="pure-input-rounded">
-                    <button type="submit" class="pure-button">Send</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="pure-g">
-            <div id="messages" class="pure-u-1"></div>
-        </div>
+        <form id="chat-form" class="textarea">
+            <input class="textarea__input" name="text" />
+            <button class="textarea__button" type="submit">Send</button>
+        </form>
     </body>
-    <script type="text/javascript" scr="src://main/js/chat.js"></script>
+
+    <script type="text/javascript">
+        const {ipcRenderer} = require('electron')
+        const messages = document.querySelector('#messages')
+        const chatForm = document.querySelector('#chat-form')
+
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault()
+
+            const text = chatForm.querySelector('input').value
+            ipcRenderer.send('message:send', text)
+
+            let message = document.createElement('div')
+            message.className = 'messages__message messages__message--mine'
+            message.innerHTML = text
+            messages.appendChild(message)
+        })
+
+        ipcRenderer.on('message:receive', function(event, text) {
+            let message = document.createElement('div')
+            message.className = 'messages__message'
+            message.innerHTML = text
+            messages.appendChild(message)
+        })
+    </script>
 </html>
