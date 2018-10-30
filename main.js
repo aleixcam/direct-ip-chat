@@ -45,8 +45,8 @@ function startServer(port) {
 }
 
 function connectToServer(event, data) {
-    if (data.host === '127.0.0.1') startServer(data.port)
-
+    startServer(data.port)
+    
     socket_client = new Client('http://' + data.host + ':' + data.port)
     socket_client.on('connect', function() {
         console.log('CLIENT: connect')
