@@ -65,25 +65,30 @@ body .chatroom {
   display: grid;
   grid-template-rows: calc(100vh - 60px) 60px;
 }
-body .chatroom .messages {
+body .chatroom__board {
   grid-row: 1;
+  padding: 2rem;
+  overflow-y: scroll;
+}
+body .chatroom__board .messages {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  max-height: calc(100% - 4rem);
-  padding: 2rem;
+  min-height: 100%;
 }
-body .chatroom .messages__message {
+body .chatroom__board .messages__message {
   align-self: flex-start;
-  padding: 1rem;
+  max-width: 80%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
   background-color: #ececf2;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   border-bottom-right-radius: 0;
 }
-body .chatroom .messages__message--mine {
+body .chatroom__board .messages__message--mine {
   align-self: flex-end;
   background-color: #8df304;
-  border-bottom-right-radius: 1rem;
+  border-bottom-right-radius: 0.75rem;
   border-bottom-left-radius: 0;
 }
 body .chatroom .textarea {

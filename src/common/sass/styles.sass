@@ -67,26 +67,31 @@ body
         display: grid
         grid-template-rows: calc(100vh - 60px) 60px
 
-        .messages
+        &__board
             grid-row: 1
-            display: flex
-            flex-direction: column
-            justify-content: flex-end
-            max-height: calc(100% - 4rem)
             padding: 2rem
+            overflow-y: scroll
 
-            &__message
-                align-self: flex-start
-                padding: 1rem
-                background-color: lighten($color-background, 80%)
-                border-radius: 1rem
-                border-bottom-right-radius: 0
+            .messages
+                display: flex
+                flex-direction: column
+                justify-content: flex-end
+                min-height: 100%
 
-                &--mine
-                    align-self: flex-end
-                    background-color: #8df304
-                    border-bottom-right-radius: 1rem
-                    border-bottom-left-radius: 0
+                &__message
+                    align-self: flex-start
+                    max-width: 80%
+                    margin-bottom: .5rem
+                    padding: .5rem 1rem
+                    background-color: lighten($color-background, 80%)
+                    border-radius: .75rem
+                    border-bottom-right-radius: 0
+
+                    &--mine
+                        align-self: flex-end
+                        background-color: #8df304
+                        border-bottom-right-radius: .75rem
+                        border-bottom-left-radius: 0
 
         .textarea
             grid-row: 2

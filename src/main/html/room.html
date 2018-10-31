@@ -16,7 +16,9 @@
         </aside>
 
         <section class="chatroom">
-            <div id="messages" class="messages"></div>
+            <section id="board" class="chatroom__board">
+                <div id="messages" class="messages"></div>
+            </section>
 
             <form id="chat-form" class="textarea">
                 <input class="textarea__input" name="text" />
@@ -30,6 +32,7 @@
     <script type="text/javascript">
         const {ipcRenderer} = require('electron')
         const newRoom = document.querySelector('#new-room')
+        const board = document.querySelector('#board')
         const messages = document.querySelector('#messages')
         const chatForm = document.querySelector('#chat-form')
 
@@ -48,6 +51,7 @@
                 message.className = 'messages__message messages__message--mine'
                 message.innerHTML = text
                 messages.appendChild(message)
+                board.scrollTop = board.scrollHeight;
             }
         })
 
@@ -56,6 +60,7 @@
             message.className = 'messages__message'
             message.innerHTML = text
             messages.appendChild(message)
+            board.scrollTop = board.scrollHeight;
         })
     </script>
 </html>
