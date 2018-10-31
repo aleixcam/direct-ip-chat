@@ -22,6 +22,8 @@ body
         grid-column: 1
         height: 100vh
         background-color: $color-background
+        -webkit-user-select: none
+        -webkit-app-region: drag
 
         &__rooms
             margin-top: 30px
@@ -31,6 +33,7 @@ body
             width: 60px
             height: 60px
             margin: 10px
+            -webkit-app-region: no-drag
 
             &--new
                 border: 4px dashed $color-primary
@@ -63,10 +66,27 @@ body
         grid-column: 2
         display: grid
         grid-template-rows: calc(100vh - 60px) 60px
-        overflow-y: scroll
 
         .messages
             grid-row: 1
+            display: flex
+            flex-direction: column
+            justify-content: flex-end
+            max-height: calc(100% - 4rem)
+            padding: 2rem
+
+            &__message
+                align-self: flex-start
+                padding: 1rem
+                background-color: lighten($color-background, 80%)
+                border-radius: 1rem
+                border-bottom-right-radius: 0
+
+                &--mine
+                    align-self: flex-end
+                    background-color: #8df304
+                    border-bottom-right-radius: 1rem
+                    border-bottom-left-radius: 0
 
         .textarea
             grid-row: 2
