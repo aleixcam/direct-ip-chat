@@ -1,8 +1,20 @@
+body .form__button, body .form__input, body .chatroom .textarea__input {
+  height: 30px;
+  padding: 5px 30px;
+  border: none;
+  border-radius: 2rem;
+  font-size: 18px;
+}
+body .form__button:focus, body .form__input:focus, body .chatroom .textarea__input:focus {
+  outline: 0;
+}
+
 body {
   display: grid;
   grid-template-columns: 80px calc(100vw - 80px);
   margin: 0;
   overflow: hidden;
+  font-family: Helvetica;
 }
 body .sidebar {
   grid-column: 1;
@@ -32,6 +44,19 @@ body .sidebar__room--new:hover {
 body .sidebar__room--new:focus {
   outline: 0;
 }
+body .home {
+  position: relative;
+}
+body .home__text {
+  position: absolute;
+  top: 54px;
+  left: 15px;
+  margin: 0;
+  font-size: 28px;
+  color: #3544fc;
+  text-transform: uppercase;
+  font-weight: 900;
+}
 body .chatroom {
   grid-column: 2;
   display: grid;
@@ -50,15 +75,7 @@ body .chatroom .textarea {
 }
 body .chatroom .textarea__input {
   width: 70%;
-  height: 30px;
   margin-right: 10px;
-  padding: 5px 30px;
-  border: none;
-  border-radius: 2rem;
-  font-size: 18px;
-}
-body .chatroom .textarea__input:focus {
-  outline: 0;
 }
 body .chatroom .textarea__button {
   width: 60px;
@@ -72,6 +89,40 @@ body .chatroom .textarea__button {
 }
 body .chatroom .textarea__button:focus {
   outline: 0;
+}
+body .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  width: calc(100vw - 2rem);
+  height: calc(100vh - 2rem);
+  padding: 1rem;
+  background-color: #d0d1e0;
+}
+body .form__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
+body .form__label {
+  margin: 0 0 0.25rem 0.5rem;
+  font-size: 14px;
+  font-weight: 700;
+}
+body .form__input {
+  font-size: 16px;
+}
+body .form__buttons {
+  display: flex;
+  justify-content: center;
+}
+body .form__button {
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #1c1d2a;
+  color: #fff;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=styles.css.map */

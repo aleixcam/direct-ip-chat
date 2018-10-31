@@ -40,7 +40,7 @@ app.on('ready', function(event) {
 function addRoom() {
     host = new BrowserWindow({
         width: 240,
-        height: 480
+        height: 240
     })
 
     host.loadURL('src://renderer/html/host.html')
