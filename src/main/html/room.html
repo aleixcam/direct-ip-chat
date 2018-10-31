@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+        <link rel="stylesheet" href="src://common/css/styles.css">
+        <title>P2P Chat</title>
+    </head>
+    <body>
+        <aside class="sidebar">
+            <div id="rooms" class="sidebar__rooms">
+                <button id="new-room" class="sidebar__room sidebar__room--new">
+                    <span class="fas fa-plus"></span>
+                </button>
+            </div>
+        </aside>
+
+        <section class="chatroom">
+            <div id="messages" class="messages"></div>
+
+            <form id="chat-form" class="textarea">
+                <input class="textarea__input" name="text" />
+                <button class="textarea__button" type="submit">
+                    <span class="fas fa-paper-plane"></span>
+                </button>
+            </form>
+        </section>
+    </body>
+
+    <script type="text/javascript">
+        const {ipcRenderer} = require('electron')
+        const newRoom = document.querySelector('#new-room')
+        const messages = document.querySelector('#messages')
+        const chatForm = document.querySelector('#chat-form')
+
+        newRoom.addEventListener('click', function(event) {
+            ipcRenderer.send('room:add')
+        })
+
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault()
+
+            const text = chatForm.querySelector('input').value
+            ipcRenderer.send('message:send', text)
+
+            let message = document.createElement('div')
+            message.className = 'messages__message messages__message--mine'
+            message.innerHTML = text
+            messages.appendChild(message)
+        })
+
+        ipcRenderer.on('message:receive', function(event, text) {
+            let message = document.createElement('div')
+            message.className = 'messages__message'
+            message.innerHTML = text
+            messages.appendChild(message)
+        })
+    </script>
+</html>

@@ -10,7 +10,7 @@ let socket_server
 let socket_client
 
 let main
-let chat
+let host
 
 // Listen for the app to be ready
 app.on('ready', function(event) {
@@ -29,15 +29,22 @@ app.on('ready', function(event) {
 		width: 1024,
 		height: 768
     })
-    
-    main.loadURL('src://main/html/index.html')
-    main.on('ready-to-show', () => {
-        main.show()
-    })
 
-    ipcMain.on('server:start', connectToServer)
+    main.loadURL('src://main/html/index.html')
+
+    ipcMain.on('room:add', addRoom)
+    ipcMain.on('server:start', connectServer)
     ipcMain.on('message:send', onSendMessage)
 });
+
+function addRoom() {
+    host = new BrowserWindow({
+        width: 240,
+        height: 480
+    })
+
+    host.loadURL('src://renderer/html/host.html')
+}
 
 function startServer(port) {
     socket_server = new Server()
@@ -49,7 +56,7 @@ function startServer(port) {
     socket_server.listen(port)
 }
 
-function connectToServer(event, data) {
+function connectServer(event, data) {
     startServer(data.port)
 
     socket_client = new Client('http://' + data.host + ':' + data.port)
@@ -65,18 +72,8 @@ function connectToServer(event, data) {
         console.log('CLIENT: disconnect')
     })
 
-    // create chat window
-    chat = new BrowserWindow({
-        titleBarStyle: 'hidden',
-		width: 1024,
-		height: 768
-    })
-
-    chat.loadURL('src://main/html/chat.html')
-    chat.on('ready-to-show', () => {
-        main.hide()
-        chat.show()
-    })
+    main.loadURL('src://main/html/room.html')
+    host.hide()
 }
 
 function onSendMessage(event, message) {
@@ -86,5 +83,5 @@ function onSendMessage(event, message) {
 
 function onChatMessage(msg) {
     console.log('Received message: ', msg)
-    chat.webContents.send('message:receive', msg)
+    main.webContents.send('message:receive', msg)
 }
