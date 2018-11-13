@@ -29,7 +29,7 @@
 
         connectForm.addEventListener('submit', function(event) {
             event.preventDefault()
-            return ipcRenderer.sendSync('server:start', {
+            return ipcRenderer.sendSync('room:join', {
                 host: connectHost.value,
                 port: connectPort.value
             })

@@ -33,7 +33,7 @@ app.on('ready', function(event) {
     main.loadURL('src://main/html/index.html')
 
     ipcMain.on('room:add', addRoom)
-    ipcMain.on('server:start', connectServer)
+    ipcMain.on('room:join', connectServer)
     ipcMain.on('message:send', onSendMessage)
 });
 
@@ -57,7 +57,7 @@ function startServer(port) {
 }
 
 function connectServer(event, data) {
-    startServer(data.port)
+    startServer(8000)
 
     socket_client = new Client('http://' + data.host + ':' + data.port)
     socket_client.on('connect', function() {
